@@ -1,4 +1,3 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -168,7 +167,7 @@ class RegisterUser(DataMixin, CreateView):
 
 
 class LoginUser(DataMixin, LoginView):
-    form_class = AuthenticationForm
+    form_class = LoginUserForm
     template_name = 'decoration/login.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -180,3 +179,11 @@ class LoginUser(DataMixin, LoginView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Авторизация")
         return dict(list(context.items()) + list(c_def.items()))
+
+    def get_success_url(self):
+        """
+        Метод возвращает пользователя на главную страницу,
+        если он правильно авторизовался
+        :return:
+        """
+        return reverse_lazy('home')
