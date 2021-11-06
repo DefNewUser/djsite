@@ -1,3 +1,5 @@
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.base import reverse_lazy
@@ -87,8 +89,8 @@ def contact(request):
     return HttpResponse("Обратная связь")
 
 
-def login(request):
-    return HttpResponse("Авторизация")
+# def login(request):
+#     return HttpResponse("Авторизация")
 
 
 def pageNotFound(request, exception):
@@ -137,6 +139,7 @@ class DecorationCategory(DataMixin, ListView):
                                       cat_selected=context['posts'][0].cat_id)
         return dict(list(context.items()) + list(c_def.items()))
 
+
 # def show_category(request, cat_id):
 #     posts = Decoration.objects.filter(cat_id=cat_id)
 
@@ -161,4 +164,19 @@ class RegisterUser(DataMixin, CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Регистрация")
+        return dict(list(context.items()) + list(c_def.items()))
+
+
+class LoginUser(DataMixin, LoginView):
+    form_class = AuthenticationForm
+    template_name = 'decoration/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """
+        Отображение формы Авторизации.
+        Формирование контекста для шаблона Login
+        :return:
+        """
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Авторизация")
         return dict(list(context.items()) + list(c_def.items()))
