@@ -1,3 +1,4 @@
+from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -165,6 +166,16 @@ class RegisterUser(DataMixin, CreateView):
         c_def = self.get_user_context(title="Регистрация")
         return dict(list(context.items()) + list(c_def.items()))
 
+    def form_valid(self, form):
+        """
+        Метод автоматически авторизует после регистрации пользователя
+        :param form:
+        :return:
+        """
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
 
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
@@ -187,3 +198,13 @@ class LoginUser(DataMixin, LoginView):
         :return:
         """
         return reverse_lazy('home')
+
+
+def logout_user(request):
+    """
+    Выход из авторизации
+    :param request:
+    :return:
+    """
+    logout(request)
+    return redirect('login')
