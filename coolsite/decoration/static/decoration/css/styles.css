@@ -430,7 +430,10 @@ ul.lang-list li a:hover {color: #fdc073;}
 }
 
 body{
-    background: url("../images/fon2.jpg");
-
+    background: url("../images/fon2.jpg") no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
 }
 
