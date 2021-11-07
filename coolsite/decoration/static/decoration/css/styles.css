@@ -428,3 +428,9 @@ ul.lang-list li a:hover {color: #fdc073;}
 .list-pages .page-num-selected:hover {
 	box-shadow: none; 
 }
+
+body{
+    background: url("../images/fon2.jpg");
+
+}
+
