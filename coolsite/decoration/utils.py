@@ -4,8 +4,8 @@ from django.core.cache import cache
 from .models import *
 
 menu = [{'title': "О сайте", 'url_name': 'about'},
-        {'title': "Добавить украшение", 'url_name': 'add_page'},
-        {'title': "Обратная связь", 'url_name': 'contact'},
+        {'title': "Добавить отзыв", 'url_name': 'add_page'},
+        {'title': "Заказать украшение", 'url_name': 'contact'},
         ]
 
 
