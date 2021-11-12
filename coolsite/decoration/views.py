@@ -14,6 +14,9 @@ from .utils import *
 
 # ------------index----------------
 class DecorationHome(DataMixin, ListView):
+    """
+    Класс отвечает за отображение главной страницы
+    """
     model = Decoration
     template_name = 'decoration/index.html'
     context_object_name = 'posts'
@@ -32,9 +35,9 @@ class DecorationHome(DataMixin, ListView):
     def get_queryset(self):
         """
         Отображение только отмеченных публикаций
-        :return:
+        :return: elect_related жадный запрос
         """
-        return Decoration.objects.filter(is_published=True)
+        return Decoration.objects.filter(is_published=True).select_related('cat')
 
 
 # def index(request):
@@ -147,12 +150,18 @@ class DecorationCategory(DataMixin, ListView):
     allow_empty = False
 
     def get_queryset(self):
-        return Decoration.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True)
+        return Decoration.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True).select_related('cat')
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        """
+        :param object_list:
+        :param kwargs:
+        :return:
+        """
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Категория - ' + str(context['posts'][0].cat),
-                                      cat_selected=context['posts'][0].cat_id)
+        c = Category.objects.get(slug=self.kwargs['cat_slug'])
+        c_def = self.get_user_context(title='Категория - ' + str(c.name),
+                                      cat_selected=c.pk)
         return dict(list(context.items()) + list(c_def.items()))
 
 
