@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'captcha',
+    'debug_toolbar',
     'decoration.apps.DecorationConfig',
 ]
 
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'coolsite.urls'
@@ -134,3 +136,7 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'coolsite_cache')
     }
 }
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

@@ -20,6 +20,9 @@ from django.urls import path
 from coolsite import settings
 from decoration.views import *
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls import include, url
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +31,13 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+        ] + urlpatterns
+
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 handler404 = pageNotFound
